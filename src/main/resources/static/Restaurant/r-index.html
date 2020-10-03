@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+    <title>Стартовая страница</title>
+</head>
+
+<body class="bg-light">
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+    <a class="sidebar-toggle mr-3" href="#"><i class="fa fa-bars"></i></a>
+    <a class="navbar-brand" href="#">CookStarter </a>
+    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+        <div class="collapse navbar-collapse" id="navbarText">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Адрес</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Меню</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Заказы</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="navbar-collapse collapse">
+        <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+                <form class="form-inline my-2 my-lg-0 bg-light"
+                      action="/logout"  method="post">
+                    <button class="btn btn btn-light">Logout</button>
+                </form>
+            </li>
+        </ul>
+    </div>
+</nav>
+
+<div ng-app="rApp" ng-controller="restaurantController">
+    <div class="container">
+
+        <h3>Добро пожаловать в CookStarter!</h3>
+        <br/>
+
+        <div class="col-md-12" ng-show="filter_data > 0">
+            <div class="row">
+                <div class="col-sm-2 pull-left">
+                    <label>Размер страницы:</label>
+                    <select ng-model="data_limit" class="form-control">
+                        <option>5</option>
+                        <option>10</option>
+                        <option>15</option>
+                        <option>30</option>
+                    </select>
+                </div>
+                <div class="col-sm-6 pull-right">
+                    <label>Поиск</label>
+                    <input type="text" ng-model="search" ng-change="filter()"
+                           placeholder="Поиск" class="form-control mr-sm-2"/>
+                </div>
+            </div>
+
+            <div class="row">
+                <table class="table table-striped table-bordered">
+                <thead>
+                <tr>
+                    <th>№&nbsp;<a ng-click="sort_width('id');">
+                        <i class="glyphicon glyphicon-sort"></i></a></th>
+                    <th>Название&nbsp;<a ng-click="sort_width('name');">
+                        <i class="glyphicon glyphicon-sort"></i></a></th>
+                    <th>Адрес&nbsp;<a ng-click="sort_width('address');">
+                        <i class="glyphicon glyphicon-sort"></i></a></th>
+                    <th>Часы&nbsp;<a ng-click="sort_width('time');">
+                        <i class="glyphicon glyphicon-sort"></i></a></th>
+                    <th class="actions"></th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="item in searched = (file | filter:search | orderBy : base :reverse) |
+                beginning_data : (current_grid-1)*data_limit | limitTo:data_limit">
+                    <td>{{item.id}}</td>
+                    <td>{{item.name}}</td>
+                    <td>{{item.address}}</td>
+                    <td>{{item.time}}</td>
+                    <td>
+                        <a class="btn btn-success" href="#">EDIT</a>
+                        <form action="#" method="delete"  style="display: inline-block">
+                            <button class="btn btn-danger">
+                                DELETE</button>
+                        </form>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        </div>
+
+        <div class="col-md-12" ng-show="filter_data == 0">
+            <div class="coll-md-12">
+                <h3>Нет данных</h3>
+            </div>
+        </div>
+
+        <div class="col-md-12">
+            <div class="col-md-6 pull-left">
+                <h5>Найдено {{searched.length}} из {{entire_user}}</h5>
+            </div>
+            <div class="col-md-6" ng-show="filter_data > 0">
+<!--                <div pagination="" page="current_grid" onSelectPage="page_position(page)"-->
+<!--                boundaryLinks="true" totalItems="filter_data" itemsPerPage="data-limit"-->
+<!--                class="pagination-small pull-right" previousText="&laquo;" nextText="&raquo;">-->
+<!--                </div>-->
+                <pagination totalItems="filter_data" ng-model="current_grid" itemsPerPage="data-limit"></pagination>
+            </div>
+        </div>
+
+        </div>
+    </div>
+
+<!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.2.12/angular.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/0.10.0/ui-bootstrap.min.js"></script>
+<script  type="text/javascript" src="restaurant.js"></script>
+</body>
+</html>
