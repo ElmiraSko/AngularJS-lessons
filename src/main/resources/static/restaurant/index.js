@@ -84,11 +84,18 @@
 
 // контроллер для формы регистрации ресторана
     app.controller('restFormController', function($scope, $http){
+        $scope.contact={
+            id: 1,
+            address:"",
+            phone:"",
+            email:"",
+            website:""
+        };
         $scope.restaurant={
             id: 1,
             name: "",
-            address: "",
-            time: ""
+            contact: "",
+            description: ""
         };
         $scope.addRestaurant=function (restaurant){
             console.log(restaurant); // вывели на консоль
@@ -109,12 +116,36 @@
         $http.get("http://localhost:8089/api/restaurants")
             .success(function(data){
                 $scope.restaurants=data;
+                $scope.currentPage=1; // текущая страница
+                $scope.dataLimit=2;  // количество выводимых строк
+                $scope.fileLength=$scope.restaurants.length;
+                $scope.pageCount=Math.ceil($scope.fileLength / $scope.dataLimit);
                 console.log("All ok! All restaurant getting!");
             })
             .error(function(data){
                 console.log("Error get restaurants");
             });
 
+        $scope.prevPage=function (){
+            return $scope.currentPage--;
+        };
+
+        $scope.nextPage=function (){
+            return $scope.currentPage++;
+        };
+
+        $scope.firstPage=function (){
+            return $scope.currentPage === 1;
+        };
+
+        $scope.lastPage=function (){
+            return $scope.currentPage === $scope.pageCount;
+        };
+
+        $scope.start=function (){
+            return ($scope.currentPage - 1) * $scope.dataLimit;
+        };
+// для удаления записи
         $scope.delete=function(restaurant){
             console.log("Delete restaurant " +  restaurant);
             $http.post("http://localhost:8089/api/restaurants/delete", restaurant)

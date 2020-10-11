@@ -11,26 +11,30 @@
                 <thead>
                 <tr>
                     <th>№</th>
-                    <th>Название&nbsp;<a>
-                        <i class="fa fa-arrows-v" aria-hidden="true"></i></a></th>
-                    <th>Время работы</th>
-                    <th>Адрес</th>
-                    <th>Email</th>
+                    <th>Название</th>
+                    <th>Описание</th>
+                    <th>Контакты</th>
+                    <th>Меню</th>
                     <th class="actions">Редактировать</th>
                 </tr>
                 </thead>
 
                 <tbody>
-                <tr ng-repeat="restaurant in restaurants">
+                <tr ng-repeat="restaurant in restaurants | limitTo : dataLimit : start()">
                     <td>{{restaurant.id}}</td>
                     <td>{{restaurant.name}}</td>
-                    <td>{{restaurant.time}}</td>
-                    <td>{{restaurant.address}}</td>
-                    <td>{{restaurant.email}}</td>
+                    <td>{{restaurant.description}}</td>
+                    <td>Адрес:&nbsp;{{restaurant.contact.address}}<br/>
+                        Телефон:&nbsp;{{restaurant.contact.phone}}<br/>
+                        Email:&nbsp;{{restaurant.contact.email}}<br/>
+                        Вебсайт:&nbsp;{{restaurant.contact.website}}</td>
+                    <td>{{restaurant.menu}}</td>
                     <td>
-                        <a class="btn btn-success" href="#">EDIT</a>
-                        <a class="btn btn-danger" href="#/restaurants"
-                           ng-click="delete(restaurant)">DELETE</a>
+                        <div style="display: inline-flex">
+                            <a class="btn btn-success" href="#/restaurant-form">EDIT</a>
+                            <a class="btn btn-danger" href="#/restaurants"
+                               ng-click="delete(restaurant)">DELETE</a>
+                        </div>
                     </td>
                 </tr>
                 </tbody>

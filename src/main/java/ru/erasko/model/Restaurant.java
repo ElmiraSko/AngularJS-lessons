@@ -4,65 +4,57 @@ import java.io.Serializable;
 import java.util.Objects;
 
 public class Restaurant implements Serializable {
-    private int id;
+    private Integer id;
     private String name;
-    private String address;
-    private String email;
-    private String time;
+    private String description;
+    private Contact contact;
+    private String menu;
 
-    public Restaurant(int id, String name, String address, String email, String time) {
+    public Restaurant(Integer id, String name, String description, Contact contact, String menu) {
         this.id = id;
         this.name = name;
-        this.address = address;
-        this.email = email;
-        this.time = time;
+        this.description = description;
+        this.contact = contact;
+        this.menu = menu;
     }
 
-    public int getId() {
+    public Integer getId() {
         return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public String getName() {
         return name;
     }
 
-    public String getAddress() {
-        return address;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public String getTime() {
-        return time;
+    public String getDescription() {
+        return description;
     }
 
-    public String getEmail() {
-        return email;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
-    @Override
-    public String toString() {
-        return "Restaurant{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", address='" + address + '\'' +
-                ", email='" + email + '\'' +
-                ", time='" + time + '\'' +
-                '}';
+    public Contact getContact() {
+        return contact;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Restaurant that = (Restaurant) o;
-        return id == that.id &&
-                name.equals(that.name) &&
-                address.equals(that.address) &&
-                email.equals(that.email) &&
-                time.equals(that.time);
+    public void setContact(Contact contact) {
+        this.contact = contact;
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, name, address, email, time);
+    public String getMenu() {
+        return menu;
+    }
+
+    public void setMenu(String menu) {
+        this.menu = menu;
     }
 }
