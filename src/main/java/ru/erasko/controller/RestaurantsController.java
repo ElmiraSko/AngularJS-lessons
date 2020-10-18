@@ -22,19 +22,16 @@ public class RestaurantsController {
         this.restaurantService = restaurantService;
     }
 
-    // возвращает json - список ресторанов
     @GetMapping
     public List<Restaurant> findAllRestaurant() {
         return  restaurantService.findAll();
     }
 
-    // возвращает json для страницы с меню
     @GetMapping("/menu")
     public List<ItemMenu> findAllMenu() {
         return  restaurantService.findAllMenu();
     }
 
-// получает json для добавления ресторана
     @PostMapping
     public void addRestaurant(@RequestBody Restaurant restaurant) {
         restaurantService.addRestaurant(restaurant);
