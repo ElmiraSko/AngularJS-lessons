@@ -16,8 +16,8 @@
 
 <body class="bg-light">
 
-<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-    <a class="sidebar-toggle mr-3" href="#"><i class="fa fa-bars"></i></a>
+<nav class="navbar navbar-expand-lg navbar-dark" style="background-color:  #374785">
+    <a class="sidebar-toggle mr-3 text-white" href="#"><i class="fa fa-bars"></i></a>
     <a class="navbar-brand" href="#/">CookStarter-Admin</a>
     <button class="navbar-toggler" type="button"
             data-toggle="collapse" data-target="#navbarSupportedContent"
@@ -40,6 +40,9 @@
             <li class="nav-item">
                 <a class="nav-link" href="#/login">Авторизация</a>
             </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#/registration">Регистрация</a>
+            </li>
         </ul>
     </div>
 
@@ -57,15 +60,34 @@
 
 <div>
     <div class="container">
-
         <ng-view class="ng-scope"></ng-view>
     </div>
 </div>
 
+<footer class="footer" role="contentinfo">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <p style="color: #24305E; text-align: center;
+    padding-bottom: 20px; padding-top: 40px">&copy; Заявление правообладателя. 2020. Все права защищены.</p>
+            </div>
+        </div>
+    </div>
+</footer>
+
 
 <script src="http://cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.2/angular.min.js"></script>
 <script src="http://cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.2/angular-route.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/ngStorage/0.3.11/ngStorage.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 <script  type="text/javascript" src="index.js"></script>
+<script  type="text/javascript" src="auth/login.js"></script>
+<script  type="text/javascript" src="auth/registration.js"></script>
+<script  type="text/javascript" src="restaurants/restaurants.js"></script>
+<script  type="text/javascript" src="restaurants/restaurant-form.js"></script>
+<script  type="text/javascript" src="menu/menu.js"></script>
+<script  type="text/javascript" src="menu/menu-form.js"></script>
+<script  type="text/javascript" src="orders/orders.js"></script>
 
 </body>
 </html>

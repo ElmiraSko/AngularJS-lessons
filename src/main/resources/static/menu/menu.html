@@ -1,0 +1,65 @@
+<div class="container">
+    <div class="col-md-12">
+        <br>
+        <div class="row">
+            <div class="col-md-10">
+                <h4 style="color: #24305E">Меню</h4>
+            </div>
+            <div class="col-md-2">
+                <div style="text-align: right">
+                    <a class="btn text-white" style="background-color: #374785"
+                       href="#/menu-form">Добавить</a>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <hr style="color: #24305E; background-color: #24305E"/>
+                <table class="table table-bordered">
+                    <thead>
+                    <tr class="d-flex">
+                        <th  class="col-3">Фото</th>
+                        <th class="col-3">Название&nbsp;<a ng-click="sort_width('name');">
+                            <i class="fa fa-arrows-v" aria-hidden="true"></i></a></th>
+                        <th class="col-3">Цена&nbsp;<a ng-click="sort_width('price');">
+                            <i class="fa fa-arrows-v" aria-hidden="true"></i></a></th>
+                        <th class="actions col-3">Действия</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr style="background-color: #A8D0E6; color: #24305E" class="d-flex"
+                        ng-repeat="item in file | orderBy : base : reverse | limitTo : dataLimit : start()">
+                        <td class="col-3">
+                            <div style="width: inherit">
+                                <img src="http://localhost:8087/{{restaurant.picture}}" style="width: inherit; height: auto"
+                                     class="img-fluid rounded" alt="..."/>
+                            </div>
+                        </td>
+                        <td class="col-3">
+                            <b>{{item.name}}</b><br/>
+                            <i>{{item.description}}</i>
+                        </td>
+                        <td class="col-3"><b>{{item.price}}</b></td>
+                        <td class="col-3">
+                            <a class="btn text-white" style="background-color: #374785" href="#">Редактировать</a>
+                            <a class="btn text-white" style="background-color: #F76C6C"
+                               href="#" ng-click="delete(item.id)">Удалить</a>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+                <hr style="color: #24305E; background-color: #24305E"/>
+            </div>
+
+            <div class="col-md-12">
+                <div class="col-md-6">
+                    <button class="btn text-white" style="background-color: #374785"
+                            ng-click="prevPage()" ng-disabled="firstPage()">Назад</button>
+                    <span>Страница {{currentPage}} из {{pageCount}}</span>
+                    <button class="btn text-white" style="background-color: #374785"
+                            ng-click="nextPage()" ng-disabled="lastPage()">Вперед</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

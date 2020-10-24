@@ -1,4 +1,7 @@
-<br><br>
+<div class="col-md-12">
+    <h4 style="color: #24305E; text-align: center;
+    padding-bottom: 40px; padding-top: 40px">Авторизация</h4>
+</div>
 <div>
     <div class="col-sm-6 my-3" style="margin: auto">
         <label class="sr-only" for="username">Username/login</label>
@@ -8,7 +11,7 @@
                     <span><i class="fa fa-user"></i></span>
                 </div>
             </div>
-            <input type="text" class="form-control" ng-model="authInfo.login"
+            <input type="text" class="form-control" ng-model="authInfo.username"
                    id="username" placeholder="Username">
         </div>
     </div>
@@ -22,13 +25,13 @@
                     <span><i class="fa fa-key"></i></span>
                 </div>
             </div>
-            <input type="text" class="form-control" ng-model="authInfo.password"
+            <input type="password" class="form-control" ng-model="authInfo.password"
                    id="password" placeholder="Password">
         </div>
     </div>
 
     <div class="col-sm-2 my-3" style="margin: auto">
-        <button type="submit" class="btn btn-block btn-primary"
+        <button type="submit" class="btn btn-block text-white" style="background-color: #374785"
         ng-click="authorisation(authInfo)">Войти</button>
     </div>
 </div>
