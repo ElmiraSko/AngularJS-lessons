@@ -1,15 +1,26 @@
 "use strict";
 
 (function (){
-    var app=angular.module("myApp");
+    let app=angular.module("myApp");
     // контроллер для меню
-    app.controller('menuController', function($scope, $http){
-        $http.get("http://localhost:8089/api/restaurants/menu")
+    app.controller('menuController', function($scope, $http, $window, idStorage){
+// при отрисовки html появляется лишний запрос на получение картинки, надо понять в чем дело
+        $scope.file=[];      // подготовили массив для меню
+        $scope.token='?token=' + $window.localStorage.getItem('Authorization');
+
+        $scope.urlForGet="http://localhost:8089/api/restaurants/menu/"+idStorage.getId();
+        console.log("Контроллер menu!"); // вывод на консоль
+        console.log("url для меню: " + $scope.urlForGet); // вывод на консоль
+
+        $http.get("http://localhost:8089/api/restaurants/menu/"+idStorage.getId()) //????
             .success(function(data){
                 $scope.file=data;
-                $scope.currentPage=1;
-                $scope.dataLimit=5;
-                console.log($scope.dataLimit);
+
+                console.log($scope.file);
+
+                $scope.currentPage=1; // текущая страница
+                $scope.dataLimit=5;  // количество выводимых строк
+                console.log($scope.dataLimit); // вывод на консоль
 
                 $scope.fileLength=$scope.file.length;
                 $scope.pageCount=Math.ceil($scope.fileLength / $scope.dataLimit);

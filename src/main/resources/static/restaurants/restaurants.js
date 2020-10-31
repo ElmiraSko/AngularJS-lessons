@@ -1,29 +1,30 @@
-"use strict";
-
 (function (){
+    "use strict";
+
     var app=angular.module("myApp");
 
-    // контроллер для получения списка ресторанов
-    app.controller('restaurantsController', function($scope, $http){
-        $scope.imageURL="http://localhost:8087/";
+    // контроллер для получения списка ресторанов (или один ресторан по его id)
+    app.controller('restaurantsController', function($scope, $http, $window, idStorage){
 
-        $http.get("http://localhost:8089/api/restaurants")
+       //Для получения списка ресторанов использую url: http://localhost:8089/api/restaurants
+        // Для получения одного ресторана по его id:    http://localhost:8089/api/restaurants/id
+        // в переменную $scope.token положили токен из локального репозтит-я браузера, для передачи в параметре запроса в <img>
+        $scope.token='?token=' + $window.localStorage.getItem('Authorization');
+        $scope.imageURL="http://localhost:8087/picture/get/";
+
+        // запрашиваем ресторан по id= (1- это второй ресторан в ArrayList)
+        $http.get("http://localhost:8089/api/restaurants/" + idStorage.getId())
             .success(function(data){
-                $scope.restaurants=data; // в переменную restaurants сохранили все рестораны
-
-// //прошлись в цикле по всем ресторанам и переменной picture присвоили ссылку на ресурс, где брать картинки
-//                 angular.forEach($scope.restaurants, function (value, key){
-//                     let id = value.picture; // временно сохраняем пришедший индекс картинки
-//                     console.log("в переменную id сохранили индекс - " + id);
-//                     value.picture=$scope.imageURL+id;
-//                     console.log("Теперь значение value.picture - " + value.picture);
-//                 });
+                $scope.restaurants=data; // в переменную restaurants сохранили список ресторанов
 
                 $scope.currentPage=1; // текущая страница
                 $scope.dataLimit=1;  // количество выводимых строк
                 $scope.fileLength=$scope.restaurants.length;
                 $scope.pageCount=Math.ceil($scope.fileLength / $scope.dataLimit);
+                // временная проверка, вывод в лог
                 console.log("All ok! All restaurant getting!");
+                console.log("1: "+ $scope.imageURL);
+                console.log("2: "+ $scope.imageURL+$scope.token);
             })
             .error(function(data){
                 console.log("Error get restaurants");
@@ -48,6 +49,11 @@
         $scope.start=function (){
             return ($scope.currentPage - 1) * $scope.dataLimit;
         };
+        $scope.forMenu=function (id){
+            idStorage.setId(id);
+            console.log("idStorage.set(id): " + idStorage.getId(id));
+        }
+
 
         // для удаления записи
         $scope.delete=function(restaurant){
@@ -69,5 +75,9 @@
                     console.log("Error get restaurants " + restaurant);
                 });
         };
+
     });
+
+
+
 })();

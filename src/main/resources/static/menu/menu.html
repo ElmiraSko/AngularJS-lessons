@@ -15,7 +15,10 @@
         <div class="row">
             <div class="col-md-12">
                 <hr style="color: #24305E; background-color: #24305E"/>
-                <table class="table table-bordered">
+                <div class="col-md-12" ng-show="fileLength === 0">
+                    <h3>Нет данных</h3>
+                </div>
+                <table class="table table-bordered" ng-show="fileLength !== 0">
                     <thead>
                     <tr class="d-flex">
                         <th  class="col-3">Фото</th>
@@ -31,7 +34,7 @@
                         ng-repeat="item in file | orderBy : base : reverse | limitTo : dataLimit : start()">
                         <td class="col-3">
                             <div style="width: inherit">
-                                <img src="http://localhost:8087/{{restaurant.picture}}" style="width: inherit; height: auto"
+                                <img src="http://localhost:8087/picture/get/{{item.picture}}{{token}}" style="width: inherit; height: auto"
                                      class="img-fluid rounded" alt="..."/>
                             </div>
                         </td>
@@ -51,7 +54,7 @@
                 <hr style="color: #24305E; background-color: #24305E"/>
             </div>
 
-            <div class="col-md-12">
+            <div class="col-md-12" ng-show="fileLength !== 0">
                 <div class="col-md-6">
                     <button class="btn text-white" style="background-color: #374785"
                             ng-click="prevPage()" ng-disabled="firstPage()">Назад</button>

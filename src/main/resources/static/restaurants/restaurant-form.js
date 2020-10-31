@@ -1,7 +1,7 @@
 "use strict";
 
 (function (){
-    var app=angular.module("myApp");
+    let app=angular.module("myApp");
 
     app.directive('fileInput', ['$parse', function ($parse) {
         return {
@@ -18,19 +18,19 @@
 
     // контроллер для формы регистрации ресторана
     app.controller('restFormController', function($scope, $http){
-        $scope.contact={
-            id: 1,   // не указан в api
-            address:"",
-            phone:"",
-            mail:"",
-            website:""
-        };
+
         $scope.restaurant={
             id: 1,   // не указан в api
             name: "",
-            contact: "",
             description: "",
-            picture: 1
+            picture: 1,
+            contact: {
+                id: 1,   // не указан в api
+                address:"",
+                phone:"",
+                mail:"",
+                website:""
+            }
         };
 
         //отправка картинки, хотела испытать
@@ -64,13 +64,13 @@
             angular.forEach($scope.files, function (file){
                 fd.append('file', file);
             });
-
-            $http.post("http://localhost:8087/upload", fd, conf)
+// послали запрос на сохраниние картинки в бд, получили айди картинки
+            $http.post("http://localhost:8087/picture/api/add", fd, conf)
                 .success(function (d){
                     console.log(d);
-                    console.log(d.pictureId + ' - получили pictureId из json');
+                    console.log(d.pictureId + ' - получили pictureId из json ответа');
+                    // присвоили индекс картинки свойству restaurant.picture
                     $scope.restaurant.picture=d.pictureId;
-                    // присвоили индекс картинки
                     console.log($scope.restaurant.picture);
                 })
                 .error(function (d){
@@ -82,7 +82,7 @@
         $scope.addRestaurant=function (restaurant){
             console.log(restaurant);
 
-            // отправляем объект ресторана в пост-запросе на бэк, работает, временно закомментир-а
+            // // отправляем объект ресторана в пост-запросе на бэк, работает, временно закомментир-а
             // $http.post("http://localhost:8089/api/restaurants/", restaurant)
             //     .success(function(data){
             //         console.log("Success save restaurant");
