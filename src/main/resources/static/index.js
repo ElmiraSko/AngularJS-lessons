@@ -1,9 +1,9 @@
 "use strict";
 
 (function (){
-    var app=angular.module("myApp",['ngRoute', 'ngStorage']);
+    let app=angular.module("myApp",['ngRoute', 'ngStorage']);
 
-    app.config(function ($routeProvider, $httpProvider){
+    app.config(function ($routeProvider){
         $routeProvider
             .when('/', {
                 template: '<h3>Добро пожаловать в CookStarter!</h3>'
@@ -22,7 +22,11 @@
             })
             .when('/restaurant-form', {
                 templateUrl: 'restaurants/restaurant-form.html',
-                controller: 'restFormController'
+                controller: 'restaurantsController'
+            })
+            .when('/contact-form', {
+                templateUrl: 'restaurants/contact-form.html',
+                controller: 'restaurantsController'
             })
             .when('/menu', {
                 templateUrl: 'menu/menu.html',
@@ -39,8 +43,28 @@
             .otherwise({
                 redirectTo: '/'
             });
-        $httpProvider.defaults.headers.common.Authorization = 'Bearer -some accessToken to be generated later'
     });
+
+    app.controller('mainController', function ($scope, $window, $http){
+        // будем проверять, есть ли в localStorage-е токен, если его нет то не отображаем некоторые ссылки
+
+        console.log("localStorage: " + $window.localStorage.getItem('Authorization'));
+        // метод проверяет localStorage на наличие токена
+        $scope.isLoggedIn = function () {
+            return !!$window.localStorage.getItem('Authorization');
+
+        }
+        console.log("isLoggedIn: " + $scope.isLoggedIn());
+
+        // Метод для лог-аута
+        $scope.tryToLogout = function () {
+            $window.localStorage.removeItem('Authorization');
+            $http.defaults.headers.common.Authorization = '';
+            $window.location.href = '#/';
+        };
+    });
+
+
 })();
 
 

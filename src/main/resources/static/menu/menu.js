@@ -3,16 +3,16 @@
 (function (){
     let app=angular.module("myApp");
     // контроллер для меню
-    app.controller('menuController', function($scope, $http, $window, idStorage){
+    app.controller('menuController', function($scope, $http, $window){
 // при отрисовки html появляется лишний запрос на получение картинки, надо понять в чем дело
-        $scope.file=[];      // подготовили массив для меню
+        $scope.file=[];
         $scope.token='?token=' + $window.localStorage.getItem('Authorization');
 
-        $scope.urlForGet="http://localhost:8089/api/restaurants/menu/"+idStorage.getId();
-        console.log("Контроллер menu!"); // вывод на консоль
-        console.log("url для меню: " + $scope.urlForGet); // вывод на консоль
+        $scope.urlForGet="http://localhost:8089/api/restaurants/menu/"+$window.localStorage.getItem('restaurantId');
+        console.log("Контроллер menu!");
+        console.log("url для меню: " + $scope.urlForGet);
 
-        $http.get("http://localhost:8089/api/restaurants/menu/"+idStorage.getId()) //????
+        $http.get("http://localhost:8089/api/restaurants/menu/"+$window.localStorage.getItem('restaurantId'))
             .success(function(data){
                 $scope.file=data;
 
