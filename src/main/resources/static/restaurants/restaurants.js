@@ -19,92 +19,92 @@
   // контроллер для получения списка ресторанов (или один ресторан по его id)
     app.controller('restaurantsController', function($scope, $http, $window){
 
-       //Для получения списка ресторанов использую url: http://localhost:8089/api/restaurants
-        // Для получения одного ресторана по его id:    http://localhost:8089/api/restaurants/id
-        // Послед. изменения: http://localhost:8089/restaurant/id
+        let token = $window.localStorage.getItem('Authorization');
+        let myRestaurantId = $window.localStorage.getItem('restaurantId');
+
         // в переменную $scope.token положили токен из локального репозтит-я браузера, для передачи в параметре запроса в <img>
         $scope.token='?token=' + $window.localStorage.getItem('Authorization');
         $scope.imageURL="http://localhost:8087/picture/get/";
         $scope.restaurants={};
-
         $scope.contacts= {};
 
-        // запрашиваем ресторан по id= (1- это второй ресторан в ArrayList)
-        $http.get("http://localhost:8089/restaurant/" + $window.localStorage.getItem('restaurantId'))
-            .success(function(data){
-                $scope.restaurants=data; // в переменную restaurants сохранили список ресторанов
-                console.log("Get restaurant!\n: "+ data.id);
-                $scope.currentPage=1; // текущая страница
-                $scope.dataLimit=1;  // количество выводимых строк
-                $scope.fileLength=$scope.restaurants.length;
-                $scope.pageCount=Math.ceil($scope.fileLength / $scope.dataLimit);
-                //пытаемся получить контакты
-                $http.get("http://localhost:8089/restaurant/contact/get/" + $window.localStorage.getItem('restaurantId'))
-                    .success(function(data){
-                        $scope.contacts=data;
-                        $scope.contactsLength=$scope.contacts.length;
-                    })
-                    .error(function (data){
-                        console.log("Not contact: "+ data);
-                    });
+        // ======== запрашиваем ресторан по id ====== $scope.getRestaurant=function (id){};
+        // $scope.getRestaurant=function (){  // не работает как отдельный метод - ?
+        // $window.localStorage.getItem('restaurantId')
 
-                // временная проверка, вывод в лог
-                console.log("All ok! All restaurant getting!\n" + data);
-                // console.log("idStorage.getId(): "+ idStorage.getId());
-                console.log("2: "+ $scope.imageURL+$scope.token);
-            })
-            .error(function(data){
-                console.log("Error get restaurants");
-            });
-
-        $scope.prevPage=function (){
-            return $scope.currentPage--;
-        };
-
-        $scope.nextPage=function (){
-            return $scope.currentPage++;
-        };
-
-        $scope.firstPage=function (){
-            return $scope.currentPage === 1;
-        };
-
-        $scope.lastPage=function (){
-            return $scope.currentPage === $scope.pageCount;
-        };
-
-        $scope.start=function (){
-            return ($scope.currentPage - 1) * $scope.dataLimit;
-        };
-
-        // для удаления записи
-        $scope.delete=function(restaurant){
-            console.log("Delete restaurant " +  restaurant);
-            $http.post("http://localhost:8089/api/restaurants/delete", restaurant)
-                .success(function(data){
-                    console.log("Success delete restaurant");
-
-                    $http.get("http://localhost:8089/api/restaurants")
-                        .success(function(data){
-                            $scope.restaurants=data;
-                            console.log("All ok! All restaurant getting!");
+            if (token) {
+                $http.defaults.headers.common.Authorization = token;
+            }
+            $http.get("https://cookstarter-restaurant-service.herokuapp.com/restaurant/get/" + myRestaurantId)
+                .then(function(response) {
+                    $scope.restaurants = response.data;
+                    console.log("Get restaurant! restaurant id: " + response.data.id);
+                    console.log("Get restaurant! restaurant name: " + response.data.name);
+                    console.log("Get restaurant! status: " + response.status);
+                    $scope.fileLength = $scope.restaurants.length;
+                    //пытаемся получить контакты
+                    if (token) {
+                        $http.defaults.headers.common.Authorization = token;
+                    }
+                    $http.get("https://cookstarter-restaurant-service.herokuapp.com/contact/get/" + myRestaurantId)
+                        .then(function(response) {
+                            $scope.contacts = response.data;
+                            $scope.contactsLength = $scope.contacts.length;
+                            console.log("Success contact, status: " + response.status);
                         })
-                        .error(function(data){
-                            console.log("Error get restaurants");
+                        .catch(function(response){
+                            if (response.status === 500) {
+                                $window.location.href = '#/login';
+                            } else {
+                                console.log("Not contact: " + response.status);
+                                $scope.contactsLength = 0;
+                            }
                         });
                 })
-                .error(function(data){
-                    console.log("Error get restaurants " + restaurant);
+                .catch(function(response){
+                    if (response.status === 500) {
+                        $window.location.href = '#/login';
+                    } else {
+                        console.log("Error get restaurants");
+                        $scope.fileLength = 0;
+                    }
+                });
+
+
+        // }; // не работает как отдельный метод
+
+
+       // для удаления карточки ресторана, нужно переписать
+        $scope.deleteRestaurant=function(id){
+            console.log("Delete restaurant " +  id);
+            if (token) {
+                $http.defaults.headers.common.Authorization = token;
+            }
+            $http.post("https://cookstarter-restaurant-service.herokuapp.com/restaurant/delete/" + id)
+                .then(function(response) {
+                    $window.location.href = '#/restaurants';
+                    console.log("Success delete restaurant: " + response.status);
+                })
+                .catch(function(response){
+                    $window.location.href = '#/restaurants';
+                    console.log("Error delete restaurant: " + response.status);
                 });
         };
 //====================================================================================================
         // для формы ресторана
+        $scope.restaurant={};
+
         $scope.restaurant={
             id: 1,
             name: "",
             description: "",
             picture: 1,
         };
+        // $scope.restaurant.id="";
+        // $scope.restaurant.name="";
+        // $scope.restaurant.description="";
+        // $scope.restaurant.picture="";
+
         $scope.isUploadImj=false; // картинку еще не загружали
 
         //========= загрузка картинки ============
@@ -119,7 +119,10 @@
                 fd.append('file', file);
             });
 
-// послали запрос на сохраниние картинки в бд, получили айди картинки
+        // послали запрос на сохраниние картинки в бд, получили айди картинки
+            if (token) {
+                $http.defaults.headers.common.Authorization = token;
+            }
             $http.post("http://localhost:8087/picture/api/add", fd, conf)
                 .success(function (d){
                     console.log(d);
@@ -137,19 +140,34 @@
         //============= запрос на добавление ресторана ======
         $scope.addRestaurant=function (restaurant){
             console.log(restaurant);
-            // let token = $window.localStorage.getItem('Authorization');
-            // if (token) {
-            //     $http.defaults.headers.common.Authorization = token;
-            // }
+            if (token) {
+                $http.defaults.headers.common.Authorization = token;
+            }
             $http.post("http://localhost:8089/restaurant/add", restaurant)
                 .success(function(data){
                     console.log("Success save restaurant");
+                    $window.location.href = '#/restaurants';
                 })
                 .error(function(data){
                     console.log("Error for save restaurant");
+                    $window.location.href = '#/';
                 });
         };
+        //============= Запрос на обновление ресторана, не работает ===============
+        $scope.editRestaurant=function (restaurant){
+            console.log(restaurant.description + " - restaurant.description");
+
+            $scope.restaurant={
+                name:restaurant.name,
+                description: restaurant.description
+            };
+
+            console.log($scope.restaurant.description + " - description!!!");
+
+        };
+
         //============ для контактов ==============
+        //============= запрос на обновление контакта, пока не работает ====
 
         $scope.editContact=function(contact){
             $scope.contacts.address =contact.address;
@@ -160,19 +178,38 @@
             $scope.contacts.restaurantId = contact.restaurantId;
         };
 
-        //============= запрос на добавление контакта ======
-        $scope.addContact=function (contact){
+        //============= запрос на добавление контакта, работает======
+        $scope.addContact=function(contact){
+
+            contact.restaurantId=myRestaurantId; // не забыть!
             console.log(contact);
-            // let token = $window.localStorage.getItem('Authorization');
-            // if (token) {
-            //     $http.defaults.headers.common.Authorization = token;
-            // }
-            $http.post("http://localhost:8089/restaurant/contact/add", contact)
+            if (token) {
+                $http.defaults.headers.common.Authorization = token;
+            }
+            $http.post("https://cookstarter-restaurant-service.herokuapp.com/contact/add", contact)
                 .success(function(data){
-                    console.log("Success save restaurant " + data);
+                    console.log("Success save contact " + data);
+                    $window.location.href = '#/restaurants';
                 })
                 .error(function(data){
-                    console.log("Error for save restaurant " + data);
+                    console.log("Error for save contact " + data);
+                    $window.location.href = '#/login';
+                });
+        };
+
+        //============= запрос на удаление контакта, работает =====
+        $scope.deleteContact=function(){
+            if (token) {
+                $http.defaults.headers.common.Authorization = token;
+            }
+            $http.get("https://cookstarter-restaurant-service.herokuapp.com/contact/delete/"+ myRestaurantId)
+                .success(function(data){
+                    console.log("Success delete contact " + data);
+                    $window.location.href = '#/restaurants';
+                })
+                .error(function(data){
+                    console.log("Error delete contact " + data);
+                    $window.location.href = '#/login';
                 });
         };
 

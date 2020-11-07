@@ -14,10 +14,12 @@
     <title>Стартовая страница</title>
 </head>
 
-<body class="bg-light">
+<body class="bg-light" ng-controller="mainController">
 
 <nav class="navbar navbar-expand-lg navbar-dark" style="background-color:  #374785">
-    <a class="sidebar-toggle mr-3 text-white" href="#"><i class="fa fa-bars"></i></a>
+
+    <a class="sidebar-toggle mr-3 text-white" href="#">
+        <i class="fa fa-coffee" aria-hidden="true"></i></a>
     <a class="navbar-brand" href="#/">CookStarter-Admin</a>
     <button class="navbar-toggler" type="button"
             data-toggle="collapse" data-target="#navbarSupportedContent"
@@ -28,20 +30,21 @@
 
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
-            <li class="nav-item">
+            <!-- Если авторизован, то показываем ссылки-->
+<!--            <li class="nav-item" ng-show="isLoggedIn()"   ng-controller="restaurantsController">-->
+<!--                <a class="nav-link" href="#/restaurants" ng-click="getRestaurant()">Рестораны</a>-->
+<!--            </li>-->
+            <li class="nav-item" ng-show="isLoggedIn()">
                 <a class="nav-link" href="#/restaurants">Рестораны</a>
             </li>
-            <li class="nav-item">
+            <li class="nav-item" ng-show="isLoggedIn()">
                 <a class="nav-link" href="#/menu">Меню</a>
             </li>
-            <li class="nav-item">
+            <li class="nav-item" ng-show="isLoggedIn()">
                 <a class="nav-link" href="#/order">Заказы</a>
             </li>
-            <li class="nav-item">
+            <li class="nav-item" ng-show="!isLoggedIn()">
                 <a class="nav-link" href="#/login">Авторизация</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#/registration">Регистрация</a>
             </li>
         </ul>
     </div>
@@ -49,32 +52,35 @@
     <div class="navbar-collapse collapse">
         <ul class="navbar-nav ml-auto">
             <li class="nav-item">
-                <form class="form-inline my-2 my-lg-0 bg-light"
-                      action="/logout"  method="post">
-                    <button class="btn btn btn-light">Logout</button>
-                </form>
+<!--                <form class="form-inline my-2 my-lg-0 bg-light"-->
+<!--                      action="/"  method="post">-->
+                    <button class="btn btn btn-light" ng-click="tryToLogout()">Logout</button>
+<!--                </form>-->
             </li>
         </ul>
     </div>
+
 </nav>
 
-<div>
+
+<div style=" min-height: calc(100vh - 80px);">
     <div class="container">
         <ng-view class="ng-scope"></ng-view>
+        <h1>&nbsp;</h1>
     </div>
 </div>
 
-<footer class="footer" role="contentinfo">
-    <div class="container">
-        <div class="row">
-            <div class="col-md-12">
-                <p style="color: #24305E; text-align: center;
-    padding-bottom: 20px; padding-top: 40px">&copy; Заявление правообладателя. 2020. Все права защищены.</p>
-            </div>
-        </div>
-    </div>
-</footer>
-
+<!--<div style="position: absolute;  left: 0;   bottom: 0;  width: 100%;  height: 80px;">-->
+<!--    <div class="row">-->
+<!--        <div class="col-md-12">-->
+<!--            <h1>&nbsp;</h1>-->
+<!--            <h1>&nbsp;</h1>-->
+<!--            <p style="color: #24305E; text-align: center;-->
+<!--                padding-bottom: 20px;-->
+<!--                padding-top: 40px">&copy; Заявление правообладателя. 2020. Все права защищены.</p>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--</div>-->
 
 <script src="http://cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.2/angular.min.js"></script>
 <script src="http://cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.2/angular-route.js"></script>
@@ -82,11 +88,8 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 <script  type="text/javascript" src="index.js"></script>
 <script  type="text/javascript" src="auth/login.js"></script>
-<script  type="text/javascript" src="auth/registration.js"></script>
 <script  type="text/javascript" src="restaurants/restaurants.js"></script>
-<script  type="text/javascript" src="restaurants/restaurant-form.js"></script>
 <script  type="text/javascript" src="menu/menu.js"></script>
-<script  type="text/javascript" src="menu/menu-form.js"></script>
 <script  type="text/javascript" src="orders/orders.js"></script>
 
 </body>

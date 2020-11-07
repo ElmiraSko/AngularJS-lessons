@@ -34,7 +34,7 @@
             })
             .when('/menu-form', {
                 templateUrl: 'menu/menu-form.html',
-                controller: 'menuFormController'
+                controller: 'menuController'
             })
             .when('/order', {
                 templateUrl: 'orders/orders.html',
@@ -62,6 +62,7 @@
             $http.defaults.headers.common.Authorization = '';
             $window.location.href = '#/';
         };
+
     });
 
 
