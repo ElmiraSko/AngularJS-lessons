@@ -8,7 +8,7 @@
                     <div class="col">
                         <label for="restaurantAddress">Адрес:</label>
                         <input type="text" class="form-control" placeholder="Адрес ресторана"
-                               id="restaurantAddress" required ng-model="contact.address" name="address">
+                               id="restaurantAddress" required ng-model="contacts.address" name="address">
                         <span style="color:red" ng-show="contactForm.address.$invalid">
   							<span ng-show="contactForm.address.$error.required">
                                 Поле обязательное для заполнения</span>
@@ -17,7 +17,7 @@
                     <div class="col">
                         <label for="restaurantPhone">Телефон:</label>
                         <input type="text" class="form-control" id="restaurantPhone" name="phone"
-                               placeholder="Номер телефона" required ng-model="contact.phone">
+                               placeholder="Номер телефона" required ng-model="contacts.phone">
                         <span style="color:red" ng-show="contactForm.phone.$invalid">
   							<span ng-show="contactForm.phone.$error.required">
                                 Поле обязательное для заполнения</span>
@@ -28,7 +28,7 @@
                     <div class="col">
                         <label for="restaurantEmail">Email:</label>
                         <input type="email" class="form-control" placeholder="name@example.com"
-                               id="restaurantEmail" required ng-model="contact.mail" name="mail">
+                               id="restaurantEmail" required ng-model="contacts.mail" name="mail">
                         <span style="color:red" ng-show="contactForm.mail.$invalid">
   							<span class="error" ng-show="contactForm.mail.$error.required">
                             Поле обязательное для заполнения</span>
@@ -39,7 +39,7 @@
                     <div class="col">
                         <label for="restaurantWebsite">Веб-сайт:</label>
                         <input type="text" class="form-control" id="restaurantWebsite" name="website"
-                               placeholder="http://example.com" required ng-model="contact.website">
+                               placeholder="http://example.com" required ng-model="contacts.website">
                         <span style="color:red" ng-show="contactForm.website.$invalid">
   							<span ng-show="contactForm.website.$error.required">
                                 Поле обязательное для заполнения</span>
@@ -50,7 +50,7 @@
                     <div class="col">
                         <label for="RestaurantLocation">Location:</label>
                         <input type="text" class="form-control" placeholder="Location" name="location"
-                               id="RestaurantLocation" required ng-model="contact.location">
+                               id="RestaurantLocation" required ng-model="contacts.location">
                         <span style="color:red" ng-show="contactForm.location.$invalid">
   							<span ng-show="contactForm.location.$error.required">
                                 Поле обязательное для заполнения</span>
@@ -59,7 +59,7 @@
                 </div>
             </div>
             <button class="btn text-white" style="background-color: #374785"
-               ng-click="addContact(contact)"  ng-disabled="contactForm.address.$invalid ||
+               ng-click="addContact(contacts)"  ng-disabled="contactForm.address.$invalid ||
                contactForm.phone.$invalid || contactForm.mail.$invalid ||
                contactForm.website.$invalid || contactForm.location.$invalid">Сохранить</button>
         </form>

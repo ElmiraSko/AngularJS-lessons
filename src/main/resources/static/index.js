@@ -12,10 +12,6 @@
                 templateUrl: 'auth/login.html',
                 controller: 'loginController'
             })
-            .when('/registration', {
-                templateUrl: 'auth/registration.html',
-                controller: 'registrationController'
-            })
             .when('/restaurants', {
                 templateUrl: 'restaurants/restaurants.html',
                 controller: 'restaurantsController'
@@ -24,8 +20,16 @@
                 templateUrl: 'restaurants/restaurant-form.html',
                 controller: 'restaurantsController'
             })
+            .when('/updateRestaurant-form', {
+                templateUrl: 'restaurants/updateRestaurant-form.html',
+                controller: 'restaurantsController'
+            })
             .when('/contact-form', {
                 templateUrl: 'restaurants/contact-form.html',
+                controller: 'restaurantsController'
+            })
+            .when('/updateContact-form', {
+                templateUrl: 'restaurants/updateContact-form.html',
                 controller: 'restaurantsController'
             })
             .when('/menu', {
@@ -35,6 +39,10 @@
             .when('/menu-form', {
                 templateUrl: 'menu/menu-form.html',
                 controller: 'menuController'
+            })
+            .when('/update-form', {
+                templateUrl: 'menu/updateDish.html',
+                controller: 'updateDishController'
             })
             .when('/order', {
                 templateUrl: 'orders/orders.html',

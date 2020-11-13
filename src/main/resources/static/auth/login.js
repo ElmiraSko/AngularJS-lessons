@@ -25,7 +25,7 @@
                     // сохраняем токен в localStorage браузера
                     $window.localStorage.setItem('Authorization', 'Bearer ' + response.data.token);
                     // сохраняем в localStorage restaurantId или id пользователя (нужно получить при авторизации)
-                    $window.localStorage.setItem('restaurantId', '2');
+                    $window.localStorage.setItem('restaurantId', '1');
                     console.log("Проверка при логировании:\n localStorage.getItem: " + $window.localStorage.getItem('Authorization'));
                     console.log("Проверка при логировании:\n restaurantId: " + $window.localStorage.getItem('restaurantId'));
 
@@ -41,6 +41,4 @@
                 });
         }
     });
-    //===============
-
 })();

@@ -17,41 +17,15 @@
     }]);
 
     // контроллер для формы регистрации ресторана
-    app.controller('restFormController', function($scope, $http){
+    app.controller('restFormController', function($scope, $http, $window){
 
         $scope.restaurant={
             id: 1,   // не указан в api
             name: "",
             description: "",
             picture: 1,
-            contact: {
-                id: 1,   // не указан в api
-                address:"",
-                phone:"",
-                mail:"",
-                website:""
-            }
         };
-
-        //отправка картинки, хотела испытать
-        // var form = new FormData();
-        // form.append("file", fileInput.files[0], "/D:/Учёба/Командная/picture/1.jpg");
-        //     console.log($scope.mfiles);
-
-        //$scope.uploadFile=function (){
-        //     $http({
-        //         method: 'POST',
-        //         url: 'http://localhost:8087/upload',
-        //         data: form,
-        //         headers: {'Content-Type': 'multipart/form-data'}
-        //     }).success(function (d){
-        //         console.log(d);
-        //     }).error(function (d){
-        //         console.log(d);
-        //         console.log($scope.files);
-        //     });
-        // };
-
+        $scope.isUploadImj=false; // картинку еще не загружали
 
         //========= загрузка картинки ============
         $scope.uploadFile=function (){
@@ -64,6 +38,7 @@
             angular.forEach($scope.files, function (file){
                 fd.append('file', file);
             });
+
 // послали запрос на сохраниние картинки в бд, получили айди картинки
             $http.post("http://localhost:8087/picture/api/add", fd, conf)
                 .success(function (d){
@@ -72,24 +47,27 @@
                     // присвоили индекс картинки свойству restaurant.picture
                     $scope.restaurant.picture=d.pictureId;
                     console.log($scope.restaurant.picture);
+                    $scope.isUploadImj=true;
                 })
                 .error(function (d){
                     console.log(d);
                 });
         };
 
-        //============= запрос на регистрацию (добавление) ресторана ======
+        //============= запрос на добавление ресторана ======
         $scope.addRestaurant=function (restaurant){
             console.log(restaurant);
-
-            // // отправляем объект ресторана в пост-запросе на бэк, работает, временно закомментир-а
-            // $http.post("http://localhost:8089/api/restaurants/", restaurant)
-            //     .success(function(data){
-            //         console.log("Success save restaurant");
-            //     })
-            //     .error(function(data){
-            //         console.log("Error for save restaurant");
-            //     });
+            // let token = $window.localStorage.getItem('Authorization');
+            // if (token) {
+            //     $http.defaults.headers.common.Authorization = token;
+            // }
+            $http.post("http://localhost:8089/restaurant/add", restaurant)
+                .success(function(data){
+                    console.log("Success save restaurant");
+                })
+                .error(function(data){
+                    console.log("Error for save restaurant");
+                });
         };
             //=============================
 

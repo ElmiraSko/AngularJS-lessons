@@ -3,65 +3,95 @@
 (function (){
     var app=angular.module("myApp");
 
-    // контроллер для заказов
-    // (здесь временно тестирую передачу токена, буду менять)
-    app.controller('orderController', function($scope, $http, $window, $log){
+    // контроллер для заказов, (здесь временно тестируем передачу токена)
+    app.controller('orderController', function($scope, $http, $window){
 
-        $scope.order=''; // временная, для тестирования
         let token = $window.localStorage.getItem('Authorization');
-        console.log("2: " + token);
-
-        //=== вариант-1 для передачи токена в headers (работает) ===
-        // url-1 для тестирования: https://marketcook.herokuapp.com/market/api/v1/restaurants
-        // url-2 для тестирования: http://localhost:8085/user
-
-        $http({
-            url : "https://marketcook.herokuapp.com/market/api/v1/restaurants",
-            method : 'GET',
-            headers : {
-                'Content-Type': 'application/x-www-form-urlencoded',
-                'Authorization' : token
+        $scope.orders= [
+            {
+                id: 22,
+                customerId: 1,
+                restaurantId: 24,
+                status: "SAVED",
+                dateCreated: "04-10-2020 13:23:29.614+0300",
+                dishes: {
+                    "1": {
+                        id: 64,
+                        price: 0.99,
+                        quantity: 5
+                    },
+                    "2": {
+                        id: 65,
+                        price: 1.99,
+                        quantity: 3
+                    }
+                }
+            },
+            {
+                id: 23,
+                customerId: 2,
+                restaurantId: 24,
+                status: "SAVED",
+                dateCreated: "04-10-2020 13:27:20.316+0300",
+                dishes: {
+                    "1": {
+                        id: 66,
+                        price: 0.99,
+                        quantity: 5
+                    },
+                    "2": {
+                        id: 67,
+                        price: 1.99,
+                        quantity: 3
+                    }
+                }
             }
-        }).success(function(data){
-            $log.info("Test-1, success!");
-            $log.info(data);
-            $scope.order=data;
-        }).error(function(data, status, headers, config){
-            console.log("Error get data: " + data);
-            console.log("Error get status: " + status);
-            console.log("Error get headers: " + headers);
-            console.log("Error get config: " + config);
-        });
+        ]
 
-        //=== вариант-2 для передачи токена в headers (работает) ===
+        if (token) {
+            $http.defaults.headers.common.Authorization = token;
+        }
+        $http.get("https://cookstarter-restaurant-service.herokuapp.com/restaurant/get/" + 1)
+            .then(function(response) {
+                $scope.restaurants = response.data;
+                console.log("Get restaurant! restaurant id: " + response.data.id);
+                console.log("Get restaurant! restaurant name: " + response.data.name);
 
-        // let conf={
-        //     headers : {
-        //                  'Authorization' : token
-        //     }
-        // };
-        //
-        // $http.get("https://marketcook.herokuapp.com/market/api/v1/restaurants", conf)
-        //     .success(function(data){
-        //         $log.info("Test-2, success!");
-        //         $log.info(data);
-        //         $scope.order=data;
-        //     })
-        //     .error(function(data){
-        //         console.log("Error get user request " + data);
-        //     });
+                angular.forEach($scope.orders, function (value, key){
+                let restId = value.restaurantId; // временно сохраняем пришедший индекс картинки
+                console.log("в переменную restId сохранили айди ресторана - " + restId);
+                value.restaurantId=response.data.name;
+                console.log("Теперь значение value.restaurantId - " + value.restaurantId);
+            });
+                angular.forEach($scope.orders, function (value, key){
+                    if (token) {
+                        $http.defaults.headers.common.Authorization = token;
+                    }
+                    $http.get("https://cookstarter-users-service.herokuapp.com/users/customer/" + value.customerId)
+                        .success(function(data){
+                            console.log("Success get customer! " + data);
+                            value.customerId=data;
+                            console.log("Теперь значение customerId - " + value.customerId);
+                        })
+                        .error(function(data){
+                            console.log("Error get customer! " + data);
+                            $window.location.href = '#/login';
+                        });
 
-        // === вариант-3 для передачи токена в headers (работает) ===
+                });
 
-        // $http.defaults.headers.common.Authorization = token;
-        // $http.get("https://marketcook.herokuapp.com/market/api/v1/restaurants")
-        //     .success(function(data){
-        //         $log.info("Test-3, success!");
-        //         $log.info(data);
-        //     })
-        //     .error(function(data){
-        //         console.log("Error get user request " + data);
-        //     });
+
+            })
+            .catch(function(data){
+                console.log("Error get restaurants");
+                $scope.fileLength=0;
+            });
+        // https://cookstarter-users-service.herokuapp.com/users/customer/1
+
+
+
+
+
 
 
     });
