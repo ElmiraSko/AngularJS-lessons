@@ -154,8 +154,7 @@
         $scope.deleteDish=function(dish){
             console.log(dish)
             let deletedDishImgId = dish.pictureId;
-            let dishName = dish.name;
-            let restId ="/" + dish.restaurantId;
+            let dishId = dish.id;
             console.log("deletedDishImgId = " + deletedDishImgId);
             if (token) {
                 $http.defaults.headers.common.Authorization = token;
@@ -169,11 +168,11 @@
                 });
 
 
-            $http.get("https://cookstarter-restaurant-service.herokuapp.com/dish/delete/"+ dishName + restId)
+            $http.get("https://cookstarter-restaurant-service.herokuapp.com/dish/delete/"+dishId)
                 .success(function(data, status){
-                    console.log("Блюдо успешно удалено! " + status);
                     $window.location.reload();
                     $window.location.href = '#/menu';
+                    console.log("Блюдо успешно удалено! " + status);
                 })
                 .error(function(data, status){
                     console.log("Возникла ошибка при удалении блюда! " + status);
