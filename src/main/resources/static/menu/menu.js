@@ -21,7 +21,7 @@
     }]);
 
     // контроллер для меню
-    app.controller('menuController', function($scope, $http, $window, $route){
+    app.controller('menuController', function($scope, $http, $window){
 // при отрисовки html появляется лишний запрос на получение картинки, надо понять в чем дело
 
         let token = $window.localStorage.getItem('Authorization');
@@ -168,11 +168,11 @@
                 });
 
 
-            $http.get("https://cookstarter-restaurant-service.herokuapp.com/dish/delete/"+dishId)
+            $http.get("https://cookstarter-restaurant-service.herokuapp.com/dish/delete/"+ dishId)
                 .success(function(data, status){
+                    console.log("Блюдо успешно удалено! " + status);
                     $window.location.reload();
                     $window.location.href = '#/menu';
-                    console.log("Блюдо успешно удалено! " + status);
                 })
                 .error(function(data, status){
                     console.log("Возникла ошибка при удалении блюда! " + status);

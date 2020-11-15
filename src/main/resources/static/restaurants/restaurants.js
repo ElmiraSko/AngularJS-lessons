@@ -26,8 +26,6 @@
         let token = $window.localStorage.getItem('Authorization');
         let myRestaurantId = $window.localStorage.getItem('restaurantId');
 
-
-
         // в переменную $scope.token положили токен
         $scope.token='?Authorization=' + token;
         $scope.num='&num='+ getNumber();
@@ -58,13 +56,13 @@
                             console.log(response);
                             $scope.contacts = response.data;
                             $scope.contactsLength = $scope.contacts.length;
-                            console.log("Success contact, status: " + response.status);
+                            console.log("Получили контакты, статус: " + response.status);
                         })
                         .catch(function(response){
                             if (response.status === 500) {
                                 $window.location.href = '#/login';
                             } else {
-                                console.log("Not contact: " + response.status);
+                                console.log("Ошибка при получении контактов, статус: " + response.status);
                                 $scope.contactsLength = 0;
                             }
                         });

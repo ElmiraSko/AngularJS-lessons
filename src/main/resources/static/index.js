@@ -7,6 +7,7 @@
         $routeProvider
             .when('/', {
                 template: '<h3>Добро пожаловать в CookStarter!</h3>'
+
             })
             .when('/login', {
                 templateUrl: 'auth/login.html',
@@ -53,7 +54,7 @@
             });
     });
 
-    app.controller('mainController', function ($scope, $window, $http){
+    app.controller('mainController', function ($scope, $window, $http, $route){
         // будем проверять, есть ли в localStorage-е токен, если его нет то не отображаем некоторые ссылки
 
         console.log("localStorage: " + $window.localStorage.getItem('Authorization'));
@@ -70,6 +71,21 @@
             $http.defaults.headers.common.Authorization = '';
             $window.location.href = '#/';
         };
+
+
+        $scope.getIndex = function (){
+            console.log("Массив id ресторанов для выподающего меню: " );
+            $scope.array = JSON.parse($window.localStorage.getItem('restIds'));
+            console.log($scope.array);
+        };
+
+        $scope.choiceId = function (rId) {
+            console.log("Выбрали ресторан и сохранили его id в локальное хранилище!");
+            $window.localStorage.setItem('restaurantId', JSON.stringify(rId));
+            $window.location.href = '#/restaurants';
+            $route.reload();
+        };
+
 
     });
 
