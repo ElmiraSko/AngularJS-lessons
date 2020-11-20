@@ -14,7 +14,7 @@
     <title>Стартовая страница</title>
 </head>
 
-<body class="bg-light" ng-controller="mainController">
+<body class="bg-light" ng-cloak ng-controller="mainController">
 
 <nav class="navbar navbar-expand-lg navbar-dark" style="background-color:  #374785">
 
@@ -31,27 +31,15 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
             <!-- Если авторизован, то показываем ссылки-->
-<!--            <li class="nav-item" ng-show="isLoggedIn()">-->
-<!--                <a class="nav-link" href="#/restaurants">Рестораны</a>-->
-<!--            </li>-->
-
-            <li class="nav-item dropdown" ng-show="isLoggedIn()">
-                <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" ng-click="getIndex()">
-                    Рестораны
-                </a>
-                <ul class="dropdown-menu">
-                    <li ng-repeat="id in array">
-                        <a class="dropdown-item" href="#/restaurants" ng-click="choiceId(id)">Ресторан с id {{id}}</a></li>
-                </ul>
+            <li class="nav-item" ng-show="isLoggedIn()">
+                <a class="nav-link" href="#/restaurants">Рестораны</a>
             </li>
-
-
             <li class="nav-item" ng-show="isLoggedIn()">
                 <a class="nav-link" href="#/menu">Меню</a>
             </li>
-<!--            <li class="nav-item" ng-show="isLoggedIn()">-->
-<!--                <a class="nav-link" href="#/order">Заказы</a>-->
-<!--            </li>-->
+            <li class="nav-item" ng-show="isLoggedIn()">
+                <a class="nav-link" href="#/order">Заказы</a>
+            </li>
             <li class="nav-item" ng-show="!isLoggedIn()">
                 <a class="nav-link" href="#/login">Авторизация</a>
             </li>
@@ -67,7 +55,6 @@
     </div>
 
 </nav>
-
 
 <div style=" min-height: calc(100vh - 80px);">
     <div class="container">

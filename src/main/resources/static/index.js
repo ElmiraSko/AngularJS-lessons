@@ -49,13 +49,16 @@
                 templateUrl: 'orders/orders.html',
                 controller: 'orderController'
             })
+            .when('/show-dishes', {
+                templateUrl: 'orders/showDishes.html',
+                controller: 'showDishesController'
+            })
             .otherwise({
                 redirectTo: '/'
             });
     });
 
     app.controller('mainController', function ($scope, $window, $http, $route){
-        // будем проверять, есть ли в localStorage-е токен, если его нет то не отображаем некоторые ссылки
 
         console.log("localStorage: " + $window.localStorage.getItem('Authorization'));
         // метод проверяет localStorage на наличие токена
@@ -71,21 +74,6 @@
             $http.defaults.headers.common.Authorization = '';
             $window.location.href = '#/';
         };
-
-
-        $scope.getIndex = function (){
-            console.log("Массив id ресторанов для выподающего меню: " );
-            $scope.array = JSON.parse($window.localStorage.getItem('restIds'));
-            console.log($scope.array);
-        };
-
-        $scope.choiceId = function (rId) {
-            console.log("Выбрали ресторан и сохранили его id в локальное хранилище!");
-            $window.localStorage.setItem('restaurantId', JSON.stringify(rId));
-            $window.location.href = '#/restaurants';
-            $route.reload();
-        };
-
 
     });
 
