@@ -45,10 +45,10 @@
                 templateUrl: 'menu/updateDish.html',
                 controller: 'updateDishController'
             })
-            .when('/order', {
-                templateUrl: 'orders/orders.html',
-                controller: 'orderController'
-            })
+            // .when('/order', {
+            //     templateUrl: 'orders/orders.html',
+            //     controller: 'orderController'
+            // })
             .when('/show-dishes', {
                 templateUrl: 'orders/showDishes.html',
                 controller: 'showDishesController'
@@ -58,7 +58,8 @@
             });
     });
 
-    app.controller('mainController', function ($scope, $window, $http, $route){
+    app.controller('mainController', function ($scope, $window, $http){
+        $scope.myRestaurantId = $window.localStorage.getItem('restaurantId');
 
         console.log("localStorage: " + $window.localStorage.getItem('Authorization'));
         // метод проверяет localStorage на наличие токена
