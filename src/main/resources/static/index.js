@@ -45,10 +45,10 @@
                 templateUrl: 'menu/updateDish.html',
                 controller: 'updateDishController'
             })
-            // .when('/order', {
-            //     templateUrl: 'orders/orders.html',
-            //     controller: 'orderController'
-            // })
+            .when('/order', {
+                templateUrl: 'orders/orders.html',
+                controller: 'orderController'
+            })
             .when('/show-dishes', {
                 templateUrl: 'orders/showDishes.html',
                 controller: 'showDishesController'

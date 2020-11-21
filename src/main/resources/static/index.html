@@ -44,6 +44,10 @@
                 <a class="nav-link"
                    href="https://cookstarter-order-board.herokuapp.com/board/{{myRestaurantId}}">Показать заказы</a>
             </li>
+            <li class="nav-item" ng-show="isLoggedIn()">
+                <a class="nav-link"
+                   href="#/order">Архив заказов</a>
+            </li>
             <li class="nav-item" ng-show="!isLoggedIn()">
                 <a class="nav-link" href="#/login">Авторизация</a>
             </li>
