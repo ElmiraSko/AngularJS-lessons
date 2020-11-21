@@ -146,15 +146,31 @@
                 $http.defaults.headers.common.Authorization = token;
             }
             if ($scope.editImgR) { // если обновлять картинку
-                $http.post("https://picture-service.herokuapp.com/picture/restaurant/api/update/"+$scope.restaurant.pictureId, fd, conf)
-                    .success(function (d){
-                        console.log(d);
-                        console.log($scope.restaurant.pictureId);
-                        $scope.isUploadImj=true;
-                    })
-                    .error(function (d){
-                        console.log(d);
-                    });
+                if ($scope.restaurant.pictureId === null) {
+                    $http.post("https://picture-service.herokuapp.com/picture/restaurant/api/add", fd, conf)
+                        .success(function (d){
+                            console.log(d);
+                            console.log(d.id + ' - получили id картинки, сохраненной в БД');
+                            // присвоили индекс картинки свойству restaurant.picture
+                            $scope.restaurant.pictureId=d.id;
+                            console.log("id фото ресторана = ");
+                            console.log($scope.restaurant.pictureId);
+                            $scope.isUploadImj=true;
+                        })
+                        .error(function (d, status){
+                            console.log("Не получилось загрузить фото ресторана при обновлении " + status);
+                        });
+                } else {
+                    $http.post("https://picture-service.herokuapp.com/picture/restaurant/api/update/"+$scope.restaurant.pictureId, fd, conf)
+                        .success(function (d){
+                            console.log(d);
+                            console.log($scope.restaurant.pictureId);
+                            $scope.isUploadImj=true;
+                        })
+                        .error(function (d){
+                            console.log(d);
+                        });
+                }
             } else {
                 $http.post("https://picture-service.herokuapp.com/picture/restaurant/api/add", fd, conf)
                     .success(function (d){
