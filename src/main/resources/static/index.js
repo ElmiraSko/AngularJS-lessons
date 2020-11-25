@@ -7,6 +7,7 @@
         $routeProvider
             .when('/', {
                 template: '<h3>Добро пожаловать в CookStarter!</h3>'
+
             })
             .when('/login', {
                 templateUrl: 'auth/login.html',
@@ -48,13 +49,17 @@
                 templateUrl: 'orders/orders.html',
                 controller: 'orderController'
             })
+            .when('/show-dishes', {
+                templateUrl: 'orders/showDishes.html',
+                controller: 'showDishesController'
+            })
             .otherwise({
                 redirectTo: '/'
             });
     });
 
     app.controller('mainController', function ($scope, $window, $http){
-        // будем проверять, есть ли в localStorage-е токен, если его нет то не отображаем некоторые ссылки
+        $scope.myRestaurantId = $window.localStorage.getItem('restaurantId');
 
         console.log("localStorage: " + $window.localStorage.getItem('Authorization'));
         // метод проверяет localStorage на наличие токена
@@ -75,8 +80,3 @@
 
 
 })();
-
-
-
-
-

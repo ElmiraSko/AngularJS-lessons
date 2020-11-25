@@ -9,18 +9,18 @@
           integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z"
           crossorigin="anonymous">
     <link rel="stylesheet" type="text/css"
-          href="http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css">
+          href="https://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css">
 
     <title>Стартовая страница</title>
 </head>
 
-<body class="bg-light" ng-controller="mainController">
+<body class="bg-light" ng-cloak ng-controller="mainController">
 
 <nav class="navbar navbar-expand-lg navbar-dark" style="background-color:  #374785">
 
     <a class="navbar-brand" href="#/">
         <i class="fa fa-coffee" aria-hidden="true"></i>
-        &nbsp;CookStarter</a>
+        &nbsp;CookStarter-Admin</a>
     <button class="navbar-toggler" type="button"
             data-toggle="collapse" data-target="#navbarSupportedContent"
             aria-controls="navbarSupportedContent" aria-expanded="false"
@@ -32,13 +32,21 @@
         <ul class="navbar-nav mr-auto">
             <!-- Если авторизован, то показываем ссылки-->
             <li class="nav-item" ng-show="isLoggedIn()">
-                <a class="nav-link" href="#/restaurants">Рестораны</a>
+                <a class="nav-link" href="https://cookstarterapp.herokuapp.com/#!/">На главную</a>
+            </li>
+            <li class="nav-item" ng-show="isLoggedIn()">
+                <a class="nav-link" href="#/restaurants">Ресторан</a>
             </li>
             <li class="nav-item" ng-show="isLoggedIn()">
                 <a class="nav-link" href="#/menu">Меню</a>
             </li>
             <li class="nav-item" ng-show="isLoggedIn()">
-                <a class="nav-link" href="#/order">Заказы</a>
+                <a class="nav-link"
+                   href="https://cookstarter-order-board.herokuapp.com/board/{{myRestaurantId}}">Показать заказы</a>
+            </li>
+            <li class="nav-item" ng-show="isLoggedIn()">
+                <a class="nav-link"
+                   href="#/order">Архив заказов</a>
             </li>
             <li class="nav-item" ng-show="!isLoggedIn()">
                 <a class="nav-link" href="#/login">Авторизация</a>
@@ -48,17 +56,13 @@
 
     <div class="navbar-collapse collapse">
         <ul class="navbar-nav ml-auto">
-            <li class="nav-item">
-<!--                <form class="form-inline my-2 my-lg-0 bg-light"-->
-<!--                      action="/"  method="post">-->
-                    <button class="btn btn btn-light" ng-click="tryToLogout()">Logout</button>
-<!--                </form>-->
+            <li class="nav-item" ng-show="isLoggedIn()">
+                <button class="btn btn btn-light" ng-click="tryToLogout()">Logout</button>
             </li>
         </ul>
     </div>
 
 </nav>
-
 
 <div style=" min-height: calc(100vh - 80px);">
     <div class="container">
@@ -79,8 +83,13 @@
 <!--    </div>-->
 <!--</div>-->
 
-<script src="http://cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.2/angular.min.js"></script>
-<script src="http://cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.2/angular-route.js"></script>
+
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.2/angular.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.2/angular-route.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/ngStorage/0.3.11/ngStorage.min.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 <script  type="text/javascript" src="index.js"></script>
